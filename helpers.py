@@ -37,26 +37,26 @@ def phonetic_score(heard: str, target: str) -> int:
     max_len = max(len(heard), len(target))
     return max(0, min(100, round(100 * (1 - dist / max_len))))
 
-def preprocess_audio(input_path: str) -> str:
-    """
-    Load audio with librosa, normalize amplitude, trim leading/trailing
-    silence, and write the result to a new temp WAV file.
-    Returns the path to the cleaned file.
-    """
-    y, sr = librosa.load(input_path, sr=16_000, mono=True)
+# def preprocess_audio(input_path: str) -> str:
+#     """
+#     Load audio with librosa, normalize amplitude, trim leading/trailing
+#     silence, and write the result to a new temp WAV file.
+#     Returns the path to the cleaned file.
+#     """
+#     y, sr = librosa.load(input_path, sr=16_000, mono=True)
 
-    # Amplitude normalisation — peak-normalize to [-1, 1]
-    peak = np.max(np.abs(y))
-    if peak > 0:
-        y = y / peak
+#     # Amplitude normalisation — peak-normalize to [-1, 1]
+#     peak = np.max(np.abs(y))
+#     if peak > 0:
+#         y = y / peak
 
-    # Trim silence (top_db=20 is a good default; lower = more aggressive)
-    y_trimmed, _ = librosa.effects.trim(y, top_db=20)
+#     # Trim silence (top_db=20 is a good default; lower = more aggressive)
+#     y_trimmed, _ = librosa.effects.trim(y, top_db=20)
 
-    # Write cleaned audio to a new temp WAV
-    cleaned = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
-    sf.write(cleaned.name, y_trimmed, sr)
-    return cleaned.name, y_trimmed, sr
+#     # Write cleaned audio to a new temp WAV
+#     cleaned = tempfile.NamedTemporaryFile(suffix=".wav", delete=False)
+#     sf.write(cleaned.name, y_trimmed, sr)
+#     return cleaned.name, y_trimmed, sr
 
 def compute_final_score(
     heard: str,
